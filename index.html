@@ -19,7 +19,7 @@ h2{font-size:20px;margin:36px 0 10px}
 .note{font-size:13px;color:var(--muted);border-left:3px solid var(--accent);padding-left:10px;margin-top:10px}
 form{background:var(--card);border:1px solid #eee;border-radius:16px;padding:18px;margin-top:18px}
 input[type=email]{width:100%;font-size:16px;padding:12px;border:1px solid #ccd;border-radius:10px;margin:8px 0 12px}
-button{width:100%;font-size:17px;font-weight:700;padding:14px;border:0;border-radius:12px;background:var(--accent);color:#fff}
+.btn{display:block;text-align:center;text-decoration:none;width:100%;font-size:17px;font-weight:700;padding:14px;border-radius:12px;background:var(--accent);color:#fff}.cta{background:var(--card);border:1px solid #eee;border-radius:16px;padding:18px;margin-top:18px}
 .price{display:flex;gap:10px;align-items:baseline}.price b{font-size:28px}
 ul{padding-left:20px}li{margin:6px 0}
 .fine{font-size:12px;color:var(--muted);margin-top:24px}
@@ -49,19 +49,17 @@ ul{padding-left:20px}li{margin:6px 0}
 <div class="price"><b>¥1,500</b><span>/ 月 · いつでも解約 · 7日間無料</span></div>
 <p class="lead" style="font-size:15px">リリース時にメールでご案内します。先行登録者には初月価格を据え置きます。</p>
 
-<form id="f" method="POST" action="FORM_ACTION">
-<label for="email"><strong>メールアドレス</strong>（案内以外には使いません）</label>
-<input id="email" name="email" type="email" required placeholder="you@example.com" autocomplete="email">
-<input type="hidden" name="source" value="a1-landing">
-<button type="submit">先行登録する（無料）</button>
-<div class="ok" id="ok">登録ありがとうございます。リリース時にご案内します。</div>
-</form>
+<div id="f" class="cta">
+<p><strong>メールアドレス</strong>を登録するだけ（案内以外には使いません）</p>
+<a class="btn" id="cta" href="https://docs.google.com/forms/d/e/1FAIpQLSepzKH88UnGbPn9DZ9jCYXzyfs8Ne2JFZEZ98ZOUk2WLXHQjw/viewform" rel="noopener">先行登録する（無料・30秒）</a>
+<p class="fine" style="margin-top:10px">Googleフォームが開きます。登録後、このページに戻る必要はありません。</p>
+</div>
 
 <p class="fine">Hanashiは日本在住の韓国語学習者向けに準備中のサービスです。本ページは需要確認のための先行登録ページで、現時点では決済は発生しません。配信停止はいつでも可能です。</p>
 </div>
 <script>
-// Keeps the visitor on the page when the form backend answers with JSON (Formspree-style). Plain backends just redirect.
-document.getElementById('f').addEventListener('submit',async e=>{const f=e.target;if(!f.action.startsWith('http'))return;e.preventDefault();
-try{const r=await fetch(f.action,{method:'POST',body:new FormData(f),headers:{Accept:'application/json'}});if(r.ok){f.querySelector('button').style.display='none';document.getElementById('ok').style.display='block';}else f.submit();}catch{f.submit();}});
+// Carry the ad's utm_content (creative A/B) into the form link as a prefilled hidden-ish param for later matching.
+const u=new URLSearchParams(location.search),c=u.get('utm_content')||u.get('utm_source');
+if(c){const a=document.getElementById('cta');a.href+= (a.href.includes('?')?'&':'?')+'usp=pp_url&entry.utm='+encodeURIComponent(c);}
 </script>
 </body></html>
