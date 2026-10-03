@@ -19,7 +19,7 @@ h2{font-size:20px;margin:36px 0 10px}
 .note{font-size:13px;color:var(--muted);border-left:3px solid var(--accent);padding-left:10px;margin-top:10px}
 form{background:var(--card);border:1px solid #eee;border-radius:16px;padding:18px;margin-top:18px}
 input[type=email]{width:100%;font-size:16px;padding:12px;border:1px solid #ccd;border-radius:10px;margin:8px 0 12px}
-.btn{display:block;text-align:center;text-decoration:none;width:100%;font-size:17px;font-weight:700;padding:14px;border-radius:12px;background:var(--accent);color:#fff}.cta{background:var(--card);border:1px solid #eee;border-radius:16px;padding:18px;margin-top:18px}
+.btn{display:block;text-align:center;text-decoration:none;width:100%;font-size:17px;font-weight:700;padding:14px;border-radius:12px;background:var(--accent);color:#fff}#reg input,#reg select{width:100%;box-sizing:border-box;font-size:16px;padding:13px;border:1px solid #ddd;border-radius:10px;margin:0 0 10px;background:#fff}#reg button{border:0;cursor:pointer}.cta{background:var(--card);border:1px solid #eee;border-radius:16px;padding:18px;margin-top:18px}
 .price{display:flex;gap:10px;align-items:baseline}.price b{font-size:28px}
 ul{padding-left:20px}li{margin:6px 0}
 .fine{font-size:12px;color:var(--muted);margin-top:24px}
@@ -51,13 +51,33 @@ ul{padding-left:20px}li{margin:6px 0}
 
 <div id="f" class="cta">
 <p><strong>メールアドレス</strong>を登録するだけ（案内以外には使いません）</p>
-<a class="btn" id="cta" href="https://docs.google.com/forms/d/e/1FAIpQLSdh86XdbPOyeYI0Jo7mYohg_MqXQexbrjVCiZBGmiMuUGCDcA/viewform" rel="noopener">先行登録する（無料・30秒）</a>
-<p class="fine" style="margin-top:10px">Googleフォームが開きます。登録後、このページに戻る必要はありません。</p>
+<form id="reg" novalidate>
+<input id="em" type="email" inputmode="email" autocomplete="email" placeholder="you@example.com" required aria-label="メールアドレス">
+<select id="why" aria-label="韓国語を勉強する一番の目的">
+<option value="">韓国語を勉強する一番の目的は？（任意）</option>
+<option>旅行・推し活</option><option>TOPIK などの試験</option><option>仕事・留学</option><option>趣味</option>
+</select>
+<button class="btn" id="cta" type="submit">先行登録する（無料・10秒）</button>
+</form>
+<p id="msg" class="fine" style="margin-top:10px" role="status"></p>
+<p class="fine">うまく送信できない場合は <a href="https://docs.google.com/forms/d/e/1FAIpQLSdh86XdbPOyeYI0Jo7mYohg_MqXQexbrjVCiZBGmiMuUGCDcA/viewform" rel="noopener">こちらのフォーム</a> から登録できます。</p>
 </div>
 
 <p class="fine">Hanashiは日本在住の韓国語学習者向けに準備中のサービスです。本ページは需要確認のための先行登録ページで、現時点では決済は発生しません。配信停止はいつでも可能です。</p>
 </div>
 <script>
-// Per-creative signups are not tracked in the form (it has no utm field); creatives are compared by Meta's click numbers.
+// Registration posts straight to the Google Form (same data as the form page) so nobody has to leave this page.
+// The form has no utm field: creatives are compared by Meta's click numbers.
+const F='https://docs.google.com/forms/d/e/1FAIpQLSdh86XdbPOyeYI0Jo7mYohg_MqXQexbrjVCiZBGmiMuUGCDcA/formResponse';
+document.getElementById('reg').addEventListener('submit',async ev=>{
+  ev.preventDefault();
+  const em=document.getElementById('em'),msg=document.getElementById('msg'),why=document.getElementById('why').value;
+  if(!em.checkValidity()){msg.textContent='メールアドレスの形式をご確認ください。';em.focus();return;}
+  const b=new URLSearchParams({emailAddress:em.value.trim()});if(why)b.set('entry.480576743',why);
+  document.getElementById('cta').disabled=true;
+  try{await fetch(F,{method:'POST',mode:'no-cors',body:b});   // opaque response: Google gives no CORS headers
+    document.getElementById('reg').hidden=true;msg.textContent='ご登録ありがとうございます。リリース時にメールでご連絡します。';}
+  catch(e){document.getElementById('cta').disabled=false;msg.textContent='送信できませんでした。下のフォームからご登録ください。';}
+});
 </script>
 </body></html>
