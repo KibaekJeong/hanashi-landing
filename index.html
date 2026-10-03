@@ -25,6 +25,15 @@ ul{padding-left:20px}li{margin:6px 0}
 .fine{font-size:12px;color:var(--muted);margin-top:24px}
 .ok{display:none;background:#e8f7ee;border-radius:12px;padding:16px;margin-top:14px}
 </style>
+<!-- Meta Pixel: PageView on load; FormStart on first focus of the email field; Lead after the registration request is sent.
+     The Google Form's response count stays the authoritative registration number (the form answers without CORS, so acceptance cannot be observed here). -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;
+s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init','1821808358990456');fbq('track','PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none" alt="" src="https://www.facebook.com/tr?id=1821808358990456&ev=PageView&noscript=1"></noscript>
 </head>
 <body><div class="wrap">
 <div class="eyebrow">現在開発中 · 先行登録受付中 · 日本語で学べるAI韓国語勉強アプリ</div>
@@ -64,12 +73,13 @@ ul{padding-left:20px}li{margin:6px 0}
 </div>
 
 <p class="fine">Hanashiは日本在住の韓国語学習者向けに準備中のサービスです。本ページは需要確認のための先行登録ページで、現時点では決済は発生しません。配信停止はいつでも可能です。</p>
-<p class="fine" id="privacy"><strong>個人情報の取り扱い</strong>：取得するのはメールアドレスと（任意の）学習目的のみです。リリースのお知らせ以外には使用せず、第三者に提供しません。登録情報はGoogleフォーム（Google LLC）に保存されます。登録解除・削除をご希望の場合は、お知らせメールへの返信でいつでも対応します。</p>
+<p class="fine" id="privacy"><strong>個人情報の取り扱い</strong>：取得するのはメールアドレスと（任意の）学習目的のみです。リリースのお知らせ以外には使用せず、第三者に提供しません。登録情報はGoogleフォーム（Google LLC）に保存されます。また、広告の効果測定のためにMeta社のピクセル（Cookie等を利用）で、ページの閲覧・登録などの利用状況を取得しています。登録解除・削除をご希望の場合は、お知らせメールへの返信でいつでも対応します。</p>
 </div>
 <script>
 // Registration posts straight to the Google Form (same data as the form page) so nobody has to leave this page.
 // The form has no utm field: creatives are compared by Meta's click numbers.
 const F='https://docs.google.com/forms/d/e/1FAIpQLSdh86XdbPOyeYI0Jo7mYohg_MqXQexbrjVCiZBGmiMuUGCDcA/formResponse';
+document.getElementById('em').addEventListener('focus',()=>{if(window.fbq)fbq('trackCustom','FormStart');},{once:true});
 document.getElementById('reg').addEventListener('submit',async ev=>{
   ev.preventDefault();
   const em=document.getElementById('em'),msg=document.getElementById('msg'),why=document.getElementById('why').value;
@@ -77,6 +87,7 @@ document.getElementById('reg').addEventListener('submit',async ev=>{
   const b=new URLSearchParams({emailAddress:em.value.trim()});if(why)b.set('entry.480576743',why);
   document.getElementById('cta').disabled=true;
   try{await fetch(F,{method:'POST',mode:'no-cors',body:b});   // opaque response: Google gives no CORS headers
+    if(window.fbq)fbq('track','Lead');
     document.getElementById('reg').hidden=true;msg.textContent='ご登録ありがとうございます。リリース時にメールでご連絡します。';}
   catch(e){document.getElementById('cta').disabled=false;msg.textContent='送信できませんでした。下のフォームからご登録ください。';}
 });
