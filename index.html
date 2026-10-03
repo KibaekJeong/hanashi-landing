@@ -51,15 +51,13 @@ ul{padding-left:20px}li{margin:6px 0}
 
 <div id="f" class="cta">
 <p><strong>メールアドレス</strong>を登録するだけ（案内以外には使いません）</p>
-<a class="btn" id="cta" href="https://docs.google.com/forms/d/e/1FAIpQLSepzKH88UnGbPn9DZ9jCYXzyfs8Ne2JFZEZ98ZOUk2WLXHQjw/viewform" rel="noopener">先行登録する（無料・30秒）</a>
+<a class="btn" id="cta" href="https://docs.google.com/forms/d/e/1FAIpQLSdh86XdbPOyeYI0Jo7mYohg_MqXQexbrjVCiZBGmiMuUGCDcA/viewform" rel="noopener">先行登録する（無料・30秒）</a>
 <p class="fine" style="margin-top:10px">Googleフォームが開きます。登録後、このページに戻る必要はありません。</p>
 </div>
 
 <p class="fine">Hanashiは日本在住の韓国語学習者向けに準備中のサービスです。本ページは需要確認のための先行登録ページで、現時点では決済は発生しません。配信停止はいつでも可能です。</p>
 </div>
 <script>
-// Carry the ad's utm_content (creative A/B) into the form link as a prefilled hidden-ish param for later matching.
-const u=new URLSearchParams(location.search),c=u.get('utm_content')||u.get('utm_source');
-if(c){const a=document.getElementById('cta');a.href+= (a.href.includes('?')?'&':'?')+'usp=pp_url&entry.utm='+encodeURIComponent(c);}
+// Per-creative signups are not tracked in the form (it has no utm field); creatives are compared by Meta's click numbers.
 </script>
 </body></html>
