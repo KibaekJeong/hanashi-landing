@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Hanashi — AIと韓国語で話す練習、1日10分</title>
+<meta name="description" content="韓国語を「読める」から「話せる」へ。ネイティブ監修のAIと本物の会話練習。発音・自然な言い回し・文化までその場で解説。月額¥1,500、先行登録受付中。">
+<style>
+:root{--ink:#1a1a1a;--muted:#5b6470;--accent:#d7263d;--bg:#fffaf7;--card:#fff}
+*{box-sizing:border-box}body{margin:0;font-family:-apple-system,"Hiragino Sans","Noto Sans JP",sans-serif;color:var(--ink);background:var(--bg);line-height:1.7}
+.wrap{max-width:640px;margin:0 auto;padding:28px 20px 60px}
+.eyebrow{color:var(--accent);font-weight:700;letter-spacing:.08em;font-size:13px}
+h1{font-size:30px;line-height:1.3;margin:8px 0 12px}
+h2{font-size:20px;margin:36px 0 10px}
+.lead{font-size:17px;color:var(--muted)}
+.chat{background:var(--card);border:1px solid #eee;border-radius:16px;padding:16px;margin:22px 0;box-shadow:0 4px 18px rgba(0,0,0,.05)}
+.b{padding:10px 14px;border-radius:14px;margin:8px 0;max-width:88%;font-size:15px}
+.ai{background:#f3f4f6}.me{background:#ffe3e7;margin-left:auto}
+.note{font-size:13px;color:var(--muted);border-left:3px solid var(--accent);padding-left:10px;margin-top:10px}
+form{background:var(--card);border:1px solid #eee;border-radius:16px;padding:18px;margin-top:18px}
+input[type=email]{width:100%;font-size:16px;padding:12px;border:1px solid #ccd;border-radius:10px;margin:8px 0 12px}
+button{width:100%;font-size:17px;font-weight:700;padding:14px;border:0;border-radius:12px;background:var(--accent);color:#fff}
+.price{display:flex;gap:10px;align-items:baseline}.price b{font-size:28px}
+ul{padding-left:20px}li{margin:6px 0}
+.fine{font-size:12px;color:var(--muted);margin-top:24px}
+.ok{display:none;background:#e8f7ee;border-radius:12px;padding:16px;margin-top:14px}
+</style>
+</head>
+<body><div class="wrap">
+<div class="eyebrow">先行登録受付中 · 日本語で解説するAI韓国語会話</div>
+<h1>韓国語、読めるのに<br>話せないまま終わっていませんか？</h1>
+<p class="lead">Hanashi（ハナシ）は、韓国人ネイティブが監修したAIと<strong>毎日10分、本物の会話練習</strong>をするアプリです。間違えても大丈夫。発音・自然な言い回し・文化の背景まで、その場で日本語で解説します。</p>
+
+<div class="chat">
+<div class="b ai">주말에 뭐 했어요? 😊</div>
+<div class="b me">친구랑 영화를 봤어요… 보았어요?</div>
+<div class="b ai">「봤어요」が自然です！「보았어요」も正しいですが、会話ではほぼ使いません。もう一度言ってみましょう 🎧</div>
+<div class="note">発音は録音して即フィードバック。推しのインタビューや韓国ドラマのフレーズでも練習できます。</div>
+</div>
+
+<h2>こんな人のために</h2>
+<ul>
+<li>TOPIK・ハングル検定の勉強はしたけれど、<strong>会話になると固まる</strong></li>
+<li>韓国旅行・推し活・留学の前に、<strong>通じる韓国語</strong>を身につけたい</li>
+<li>英会話アプリ（Speak・ELSA）の韓国語版が<strong>ずっと欲しかった</strong></li>
+</ul>
+
+<h2>料金（先行登録者価格）</h2>
+<div class="price"><b>¥1,500</b><span>/ 月 · いつでも解約 · 7日間無料</span></div>
+<p class="lead" style="font-size:15px">リリース時にメールでご案内します。先行登録者には初月価格を据え置きます。</p>
+
+<form id="f" method="POST" action="FORM_ACTION">
+<label for="email"><strong>メールアドレス</strong>（案内以外には使いません）</label>
+<input id="email" name="email" type="email" required placeholder="you@example.com" autocomplete="email">
+<input type="hidden" name="source" value="a1-landing">
+<button type="submit">先行登録する（無料）</button>
+<div class="ok" id="ok">登録ありがとうございます。リリース時にご案内します。</div>
+</form>
+
+<p class="fine">Hanashiは日本在住の韓国語学習者向けに準備中のサービスです。本ページは需要確認のための先行登録ページで、現時点では決済は発生しません。配信停止はいつでも可能です。</p>
+</div>
+<script>
+// Keeps the visitor on the page when the form backend answers with JSON (Formspree-style). Plain backends just redirect.
+document.getElementById('f').addEventListener('submit',async e=>{const f=e.target;if(!f.action.startsWith('http'))return;e.preventDefault();
+try{const r=await fetch(f.action,{method:'POST',body:new FormData(f),headers:{Accept:'application/json'}});if(r.ok){f.querySelector('button').style.display='none';document.getElementById('ok').style.display='block';}else f.submit();}catch{f.submit();}});
+</script>
+</body></html>
